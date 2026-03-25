@@ -17,19 +17,16 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    // 1. Метод для получения всех пользователей
     public List<User> getAllUsers() {
         return StreamSupport.stream(userRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
     }
 
-    // 2. Метод для поиска по Email
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Пользователь с email " + email + " не найден"));
     }
 
-    // 3. Метод для сохранения (регистрации)
     public void save(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("Email уже занят!");
